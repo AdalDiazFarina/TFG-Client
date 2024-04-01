@@ -1,0 +1,23 @@
+:host {
+  --primary-black-color: #2c2b2b;
+  --secondary-black-color: #464646;
+}
+
+.custom-sidenav {
+  background-color: var(--primary-black-color);
+}
+
+.custom-sidenav mat-icon {
+  color: #ffffff;
+  width: 25px;
+  height: 25px;
+  font-size: 1.5rem;
+}
+
+.custom-sidenav .menu {
+  font-size: 2rem;
+}
+
+.custom-sidemenu {
+  background-color: var(--secondary-black-color);
+}
