@@ -1,0 +1,13 @@
+.card {
+  max-width: 270px;
+  height: 320px;
+  overflow-y: auto;
+  border: 1px solid #f4f4f4;
+  box-shadow: 5px solid black;
+}
+
+mat-card-title,
+mat-card-subtitle {
+  max-width: 200px;
+  overflow-wrap: break-word;
+}

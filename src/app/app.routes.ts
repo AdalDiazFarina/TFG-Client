@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { LoginPageComponent } from './views/auth/login-page/login-page.component';
-import { RegisterPageComponent } from './views/auth/register-page/register-page.component';
-import { HomePageComponent } from './views/home-page/home-page.component';
-import { ProfilePageComponent } from './views/profile-page/profile-page.component';
+import { LoginPageComponent } from './components/auth/login-page/login-page.component';
+import { RegisterPageComponent } from './components/auth/register-page/register-page.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 
 export const routes: Routes = [
   {

@@ -21,7 +21,7 @@
     class="flex justify-content-end absolute top-0 left-0 z-0 h-full w-12rem custom-sidemenu"></div>
 
   <!--router-->
-  <div [@mainContent]="menuState" class="h-screen"
+  <div [@mainContent]="menuState" 
     [ngStyle]="menuState === 'in' ? {'width': '100vw'} : {'width': 'calc(100vw - 16rem)'}">
     <router-outlet></router-outlet>
   </div>
