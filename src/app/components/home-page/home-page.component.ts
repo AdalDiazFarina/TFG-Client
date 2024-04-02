@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
+    RouterModule,
     MatButtonModule,
     MatIconModule,
   ],
@@ -43,12 +43,19 @@ export class HomePageComponent {
   public menuState = 'out';
   @ViewChild('menu', { static: true }) sideMenu?: ElementRef;
 
-  constructor(private animationBuilder: AnimationBuilder) {}
+  constructor(
+    private router: Router
+  ) {}
 
   /**
    * Event that allow to display the side menu
    */
   public toggleMenu(): void {
     this.menuState = this.menuState === 'out' ? 'in' : 'out';
+  }
+
+  public onLogout(): void {
+    localStorage.clear();
+    this.router.navigate(['/auth']);
   }
 }

@@ -25,6 +25,7 @@ export class DialogAddInvestmentprofileComponent {
   public form: FormGroup = this.fb.group({
     user_id: [1, [Validators.required]],
     name: ['', [Validators.required]],
+    description: ['', [Validators.required]],
     initial_capital: [null, [Validators.required]],
     duration: [null, [Validators.required]],
     monthly_contribution: [null, [Validators.required]]

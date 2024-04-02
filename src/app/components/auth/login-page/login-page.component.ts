@@ -37,14 +37,14 @@ export class LoginPageComponent {
 
   onSubmit() {
     this.sAuth.login(this.form.value).subscribe({
-      next: (respond) => {
-        console.log(respond)
-        if (respond.code === 1) {
-          localStorage.setItem('accessToken', respond.access_token);
-          localStorage.setItem('refreshToken', respond.refresh_token);
+      next: (res) => {
+        console.log(res)
+        if (res.code === 1) {
+          localStorage.setItem('accessToken', res.access_token);
+          localStorage.setItem('refreshToken', res.refresh_token);
           this.router.navigate(['/home']);
         } else {
-          console.log(respond.message)
+          console.log(res.message)
         }
       },
       error: (error) => {

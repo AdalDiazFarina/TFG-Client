@@ -32,6 +32,7 @@ export class ProfilePageComponent implements OnInit {
   public form: FormGroup = this.fb.group({
     user_id: [1, []],
     name: ['', []],
+    description: ['', []],
     initial_capital: [null, []],
     duration: [null, []],
     monthly_contribution: [null, []]
@@ -51,8 +52,8 @@ export class ProfilePageComponent implements OnInit {
 
   public getAllProfiles() {
     this.sInvestmentProfile.getList(this.form.value).subscribe({
-      next: (respond) => {
-        this.profiles = respond.data;
+      next: (res) => {
+        this.profiles = res.data;
       },
       error: (error) => console.error(error)
     })
@@ -60,17 +61,26 @@ export class ProfilePageComponent implements OnInit {
 
   public addProfile() {
     const dialogRef = this.dialog.open(DialogAddInvestmentprofileComponent, {
-      width: '30vw',
-      height: '85vh'
+      width: '400px',
+      height: '500px'
     });
 
     dialogRef.afterClosed().subscribe({
-      next: (respond) => {
-        this.sInvestmentProfile.create(respond).subscribe({
-          next: (respond) => {
-            console.log(respond);
+      next: (res) => {
+        this.sInvestmentProfile.create(res).subscribe({
+          next: (res) => {
+            if (res.code === 1) this.getAllProfiles();
           }, error: (error) => console.log(error)
         })
+      }, error: (error) => console.error(error)
+    })
+  }
+
+  public onDelete(id: number) {
+    this.sInvestmentProfile.delete(id).subscribe({
+      next: (res) => {
+        console.log(res)
+        this.getAllProfiles();
       }, error: (error) => console.error(error)
     })
   }

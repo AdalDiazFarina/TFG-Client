@@ -17,9 +17,9 @@
       </div>
     </div>
   
-    <div class="grid overflow-y-auto profiles-container w-full">
-      <app-flip-card *ngFor="let profile of profiles" 
-      [title]="profile.name" [subtitle]="'subtitle'" class="col-3"></app-flip-card>
+    <div class="grid overflow-y-auto profiles-container">
+      <app-flip-card *ngFor="let profile of profiles" (delete)="onDelete(profile.id)"
+      [title]="profile.name" [subtitle]="profile.description"></app-flip-card>
     </div>
   </div>
 </div>

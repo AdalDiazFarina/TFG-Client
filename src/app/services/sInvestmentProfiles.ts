@@ -9,20 +9,23 @@ import { InvestmentProfile } from "../interfaces/iInvestmentProfile";
 })
 
 export class sInvesmentProfile {
-  private url = '/api/investmentprofile/';
+  private url = '/api/investmentprofile';
 
   constructor(private http: HttpClient) {}
 
   get(id: Number): Observable<any> {
-    return this.http.get(SERVER_URL + this.url + id)
+    return this.http.get(SERVER_URL + this.url + '/' + id);
   }
 
   getList(model: InvestmentProfile): Observable<any> {
-    return this.http.post(SERVER_URL + this.url + 'getList', model)
+    return this.http.post(SERVER_URL + this.url + '/getList', model);
   }
 
   create(model: InvestmentProfile): Observable<any> {
-    return this.http.put(SERVER_URL + this.url, model)
+    return this.http.post(SERVER_URL + this.url, model);
   }
-  
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(SERVER_URL + this.url + '/' + id);
+  }
 }
