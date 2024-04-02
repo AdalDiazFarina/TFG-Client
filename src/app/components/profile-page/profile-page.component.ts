@@ -11,6 +11,7 @@ import { sInvesmentProfile } from '../../services/sInvestmentProfiles';
 import { InvestmentProfile } from '../../interfaces/iInvestmentProfile';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogAddInvestmentprofileComponent } from '../../shared/dialogs/dialog-add-investmentprofile/dialog-add-investmentprofile.component';
+import { DialogUpdateInvestmentprofileComponent } from '../../shared/dialogs/dialog-update-investmentprofile/dialog-update-investmentprofile.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -60,7 +61,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   public addProfile() {
-    const dialogRef = this.dialog.open(DialogAddInvestmentprofileComponent, {
+    let dialogRef = this.dialog.open(DialogAddInvestmentprofileComponent, {
       width: '400px',
       height: '500px'
     });
@@ -76,7 +77,25 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
-  public onDelete(id: number) {
+  public editProfile(profile: InvestmentProfile) {
+    let dialogRef = this.dialog.open(DialogUpdateInvestmentprofileComponent, {
+      data: profile,
+      width: '400px',
+      height: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        this.sInvestmentProfile.update(res).subscribe({
+          next: (res) => {
+            if (res.code === 1) this.getAllProfiles();
+          }, error: (error) => console.log(error)
+        })
+      }, error: (error) => console.error(error)
+    })
+  }
+
+  public deleteProfile(id: number) {
     this.sInvestmentProfile.delete(id).subscribe({
       next: (res) => {
         console.log(res)
@@ -84,4 +103,7 @@ export class ProfilePageComponent implements OnInit {
       }, error: (error) => console.error(error)
     })
   }
+
+
+
 }

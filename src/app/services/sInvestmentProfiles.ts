@@ -25,6 +25,10 @@ export class sInvesmentProfile {
     return this.http.post(SERVER_URL + this.url, model);
   }
 
+  update(model: InvestmentProfile): Observable<any> {
+    return this.http.put(SERVER_URL + this.url, model);
+  }
+
   delete(id: number): Observable<any> {
     return this.http.delete(SERVER_URL + this.url + '/' + id);
   }

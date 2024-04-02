@@ -22,8 +22,13 @@ export class FlipCardComponent {
   @Input() subtitle?: string;
 
   @Output() delete: EventEmitter<void> = new EventEmitter<void>();
+  @Output() edit: EventEmitter<void> = new EventEmitter<void>();
 
   public onDelete(): void {
     this.delete.emit();
+  }
+
+  public onEdit(): void {
+    this.edit.emit();
   }
 }
