@@ -1,7 +1,7 @@
 <mat-card class="card">
-  <mat-card-header class="mb-3 flex align-items-center">
-    <mat-checkbox></mat-checkbox>
-    <div class="space">
+  <mat-card-header class="mb-3 flex align-items-center justify-content-end">
+    <mat-checkbox [checked]="checked"></mat-checkbox>
+    <div>
       <button mat-icon-button color="primary" (click)="onEdit()"><mat-icon>edit</mat-icon></button>
       <button mat-icon-button color="warn" (click)="onDelete()"><mat-icon>delete</mat-icon></button>
     </div>

@@ -20,6 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 export class FlipCardComponent {
   @Input() title?: string;
   @Input() subtitle?: string;
+  @Input() checked?: boolean;
 
   @Output() delete: EventEmitter<void> = new EventEmitter<void>();
   @Output() edit: EventEmitter<void> = new EventEmitter<void>();

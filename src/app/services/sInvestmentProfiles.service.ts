@@ -32,4 +32,8 @@ export class sInvesmentProfile {
   delete(id: number): Observable<any> {
     return this.http.delete(SERVER_URL + this.url + '/' + id);
   }
+
+  deleteMultiple(ids: number[]): Observable<any> {
+    return this.http.delete(SERVER_URL + this.url, {body: ids});
+  }
 }

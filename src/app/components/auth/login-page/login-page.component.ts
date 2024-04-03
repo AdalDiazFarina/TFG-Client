@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { sAuth } from '../../../services/sAuth';
+import { sAuth } from '../../../services/sAuth.service';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
