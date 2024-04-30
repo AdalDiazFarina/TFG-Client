@@ -7,6 +7,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-update-investmentprofile',
@@ -18,17 +19,18 @@ import { Inject } from '@angular/core';
     ReactiveFormsModule,
     MatInputModule,
     MatDatepickerModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ],
-  templateUrl: './dialog-update-investmentprofile.component.html',
-  styleUrl: './dialog-update-investmentprofile.component.scss'
+  templateUrl: './dialog-investmentprofile.component.html',
+  styleUrl: './dialog-investmentprofile.component.scss'
 })
-export class DialogUpdateInvestmentprofileComponent{
+export class DialogInvestmentprofileComponent{
   public form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogUpdateInvestmentprofileComponent>,
+    public dialogRef: MatDialogRef<DialogInvestmentprofileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) {
       this.form = this.buildForm();
@@ -36,17 +38,17 @@ export class DialogUpdateInvestmentprofileComponent{
 
   public buildForm() {
     return this.fb.group({
-      id: [this.data.id],
-      user_id: [this.data.user_id],
-      name: [this.data.name],
-      description: [this.data.description],
-      initial_capital: [this.data.initial_capital],
-      duration: [this.data.duration],
-      monthly_contribution: [this.data.monthly_contribution]
+      id: [this.data.obj === null ? '' : this.data.obj.id],
+      user_id: [this.data.obj === null ? '' : this.data.obj.user_id],
+      name: [this.data.obj === null ? '' : this.data.obj.name],
+      description: [this.data.obj === null ? '' : this.data.obj.description],
+      initial_capital: [this.data.obj === null ? '' : this.data.obj.initial_capital],
+      duration: [this.data.obj === null ? '' : this.data.obj.duration],
+      monthly_contribution: [this.data.obj === null ? '' : this.data.obj.monthly_contribution]
     });
   }
 
     public submit() {
-      this.dialogRef.close()
+      this.dialogRef.close(this.form.value)
     }
 }

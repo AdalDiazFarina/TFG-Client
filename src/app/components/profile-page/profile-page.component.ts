@@ -7,19 +7,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { FlipCardComponent } from '../../shared/components/flip-card/flip-card.component';
 import { sInvesmentProfile } from '../../services/sInvestmentProfiles.service';
 import { InvestmentProfile } from '../../interfaces/iInvestmentProfile';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAddInvestmentprofileComponent } from '../../shared/dialogs/dialog-add-investmentprofile/dialog-add-investmentprofile.component';
-import { DialogUpdateInvestmentprofileComponent } from '../../shared/dialogs/dialog-update-investmentprofile/dialog-update-investmentprofile.component';
 import { debounceTime, fromEvent } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
 import { User } from '../../interfaces/iUser';
 import { sAuth } from '../../services/sAuth.service';
 import { Router } from '@angular/router';
+import { DialogInvestmentprofileComponent } from '../../shared/dialogs/dialog-investmentprofile/dialog-investmentprofile.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -36,7 +36,8 @@ import { Router } from '@angular/router';
     FlipCardComponent,
     MatMenuModule,
     MatDividerModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
@@ -102,7 +103,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   public addProfile() {
-    let dialogRef = this.dialog.open(DialogAddInvestmentprofileComponent, {
+    let dialogRef = this.dialog.open(DialogInvestmentprofileComponent, {
+      data: {
+        obj: null,
+        title: "Add a new Investment Profile",
+        mode: 0
+      },
       width: '400px',
       height: '500px'
     });
@@ -120,8 +126,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   public editProfile(profile: InvestmentProfile) {
-    let dialogRef = this.dialog.open(DialogUpdateInvestmentprofileComponent, {
-      data: profile,
+    let dialogRef = this.dialog.open(DialogInvestmentprofileComponent, {
+      data: {
+        obj: profile,
+        title: "Investment Profile",
+        mode: 1
+      },
       width: '400px',
       height: '500px'
     });

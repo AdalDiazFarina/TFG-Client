@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogUpdateInvestmentprofileComponent } from './dialog-update-investmentprofile.component';
+import { DialogUpdateInvestmentprofileComponent } from './dialog-investmentprofile.component';
 
 describe('DialogUpdateInvestmentprofileComponent', () => {
   let component: DialogUpdateInvestmentprofileComponent;

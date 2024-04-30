@@ -1,5 +1,5 @@
-<div class="flex flex-column align-items-center">
-  <h1 class="title">Investment Profile</h1>
+<div class="flex flex-col items-center overflow-hidden">
+  <h1 class="title">{{this.data.title}}</h1>
   <mat-dialog-content class="w-full">
     <div [formGroup]="form">
       <mat-form-field class="w-full">
@@ -8,14 +8,14 @@
       </mat-form-field>
       <mat-form-field class="w-full">
         <mat-label>Description</mat-label>
-        <textarea class="h-3rem" matInput type="text" formControlName="description"></textarea>
+        <textarea class="h-16" matInput type="text" formControlName="description"></textarea>
       </mat-form-field>
       <div class="flex">
-        <mat-form-field class="flex w-5 mr-2">
+        <mat-form-field class="flex w-5/12 wr-5 mr-2">
           <mat-label>Inital capital</mat-label>
           <input matInput type="number" placeholder="1000" formControlName="initial_capital">
         </mat-form-field>
-        <mat-form-field class="flex">
+        <mat-form-field class="flex w-7/12">
           <mat-label>Monthly contribution</mat-label>
           <input matInput type="number" placeholder="100" formControlName="monthly_contribution">
         </mat-form-field>
@@ -36,6 +36,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-flat-button color="accent" (click)="dialogRef.close()">Cancel</button>
-    <button mat-flat-button color="primary" [disabled]="!form.valid" (click)="submit()">Save</button>
+    <button *ngIf="data.mode === 0" mat-flat-button color="primary" [disabled]="!form.valid" (click)="submit()">Submit</button>
+    <button *ngIf="data.mode === 1" mat-flat-button color="primary" [disabled]="!form.valid" (click)="submit()">Save</button>
   </mat-dialog-actions>
 </div>
