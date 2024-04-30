@@ -1,28 +1,6 @@
 <div class="flex">
-  <!-- Sidenav -->
-  <div class="w-4rem h-screen relative z-1 custom-sidenav">
-    <div class="h-full flex justify-content-start">
-      <button class="w-4rem h-3rem" mat-button (click)="toggleMenu()">
-        <mat-icon class="menu">menu</mat-icon>
-      </button>
-    </div>
-    <div class="flex flex-column justify-content-end absolute bottom-0 left-0 z-1">
-      <button mat-button class="w-4rem h-3rem">
-        <mat-icon>settings</mat-icon>
-      </button>
-      <button mat-button class="w-4rem h-3rem" (click)="onLogout()">
-        <mat-icon>logout</mat-icon>
-      </button>
-    </div>
-  </div>
-
-  <!-- sidemenu -->
-  <div #menu [@menuInOut]="menuState"
-    class="flex justify-content-end absolute top-0 left-0 z-0 h-full w-12rem custom-sidemenu"></div>
-
-  <!--router-->
-  <div [@mainContent]="menuState" 
-    [ngStyle]="menuState === 'in' ? {'width': '100vw'} : {'width': 'calc(100vw - 16rem)'}">
+  <div class="h-screen w-1/5 bg-zinc-800"></div>
+  <div class="w-5/6 h-screen px-8 py-2">
     <router-outlet></router-outlet>
   </div>
 </div>

@@ -1,30 +1,14 @@
 import { Routes } from '@angular/router';
-import { LoginPageComponent } from './components/auth/login-page/login-page.component';
-import { RegisterPageComponent } from './components/auth/register-page/register-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { ProfileDetailsPageComponent } from './components/profile-details-page/profile-details-page.component';
+import { AuthPageComponent } from './components/auth/auth-page.component';
 
 export const routes: Routes = [
   {
     path: 'auth',
     title: 'Authentification',
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'register'
-      },
-      {
-        path: 'login',
-        title: 'Login a user',
-        component: LoginPageComponent
-      },
-      {
-        path: 'register',
-        title: 'Register a new user',
-        component: RegisterPageComponent
-      }
-    ]
+    component: AuthPageComponent
   },
   {
     path: 'home',
@@ -39,7 +23,12 @@ export const routes: Routes = [
       {
         path: 'profiles',
         title: 'list of the user investment profiles',
-        component: ProfilePageComponent
+        component: ProfilePageComponent,
+      },
+      {
+        path: 'details/:id',
+        title: 'Profile details',
+        component: ProfileDetailsPageComponent
       }  
     ]
   },

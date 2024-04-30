@@ -1,17 +1,10 @@
-.custom-buttons-nav {
-  display: flex;
-  height: 58px;
-  align-items: center;
+.mat-column-name,
+.mat-column-actions {
+  max-width: 130px;
 }
 
-.custom-buttons-nav mat-icon {
-  width: 25px;
-  height: 25px;
-  font-size: 1.5rem;
-}
-
-.profiles-container {
-  max-height: calc(100vh - 11rem);
+.mat-column-description {
+  min-width: 400px;
 }
 
 

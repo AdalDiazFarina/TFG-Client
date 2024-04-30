@@ -1,32 +1,62 @@
-<div class="h-full flex w-full container">
-  <div class="my-4 mx-4 w-full flex flex-column">
-    <div [formGroup]="form" class="flex w-full h-5rem flex">
-      <mat-form-field class="w-full">
-        <input #filter matInput placeholder="profile" formControlName="name">
-      </mat-form-field>
-      <div class="custom-buttons-nav">
-        <button class="ml-4" mat-mini-fab color="primary" (click)="addProfile()">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button class="ml-2" mat-mini-fab color="primary">
-          <mat-icon>filter_list</mat-icon>
-        </button>
-        <button class="ml-2" [matMenuTriggerFor]="menu" mat-mini-fab color="primary">
-          <mat-icon>more_vert</mat-icon>
-        </button>
+<div class="h-screen flex flex-col w-full">
+  <div [formGroup]="form" class="flex w-full h-20 pt-4">
+    <mat-form-field class="w-11/12 h-20">
+      <div class="flex flex-row items-center">
+        <mat-icon class="mr-2">search</mat-icon>
+        <input #filter matInput placeholder="What profile are you looking for?" formControlName="name">
       </div>
-      <mat-menu class="mt-1" #menu="matMenu">
-        <button mat-menu-item (click)="deleteMultipleProfiles()">Eliminar seleccionados</button>
-      </mat-menu>
+    </mat-form-field>
+    <div class="flex justify-center items-center pb-2">
+      <button class="ml-4" mat-mini-fab color="primary" (click)="addProfile()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button class="ml-2" mat-mini-fab color="primary">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      <button class="ml-2" [matMenuTriggerFor]="menu" mat-mini-fab color="primary">
+        <mat-icon>more_vert</mat-icon>
+      </button>
     </div>
-    
-    <div>
-      <mat-checkbox (change)="onChangeSelectAll()" class="mb-3"></mat-checkbox>
-    </div>
-
-    <div class="grid overflow-y-auto profiles-container">
-      <app-flip-card class="col-4" *ngFor="let profile of profiles" (delete)="deleteProfile(profile.id)" (edit)="editProfile(profile)"
-      [title]="profile.name" [subtitle]="profile.description" [checked]="allCheckboxSelected"></app-flip-card>
-    </div>
+    <mat-menu class="mt-1" #menu="matMenu">
+      <button mat-menu-item (click)="deleteMultipleProfiles()">Eliminar seleccionados</button>
+    </mat-menu>
   </div>
+  <div>
+    <div class="py-4"><mat-divider></mat-divider></div>
+    <div>
+      <p class="text-md">Home / Profile List</p>
+      <p class="text-4xl">Profile List</p>
+    </div>
+    <div class="pb-4"><mat-divider></mat-divider></div>
+  </div>
+  <table mat-table [dataSource]="profiles">
+    <ng-container matColumnDef="check">
+      <th mat-header-cell *matHeaderCellDef> <mat-checkbox></mat-checkbox> </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="editProfile(element)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button><mat-icon>description</mat-icon></button>
+        <button mat-icon-button (click)="deleteProfile(element)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>

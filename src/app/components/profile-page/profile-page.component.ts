@@ -6,7 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 import { FlipCardComponent } from '../../shared/components/flip-card/flip-card.component';
 import { sInvesmentProfile } from '../../services/sInvestmentProfiles.service';
 import { InvestmentProfile } from '../../interfaces/iInvestmentProfile';
@@ -15,6 +17,9 @@ import { DialogAddInvestmentprofileComponent } from '../../shared/dialogs/dialog
 import { DialogUpdateInvestmentprofileComponent } from '../../shared/dialogs/dialog-update-investmentprofile/dialog-update-investmentprofile.component';
 import { debounceTime, fromEvent } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
+import { User } from '../../interfaces/iUser';
+import { sAuth } from '../../services/sAuth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-page',
@@ -30,30 +35,40 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCheckboxModule,
     FlipCardComponent,
     MatMenuModule,
+    MatDividerModule,
+    MatTableModule
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
   @ViewChildren('filter') filterInputs!: QueryList<ElementRef>;
-  public form: FormGroup = this.fb.group({
-    user_id: [1, []],
-    name: ['', []],
-    description: ['', []],
-    initial_capital: [null, []],
-    duration: [null, []],
-    monthly_contribution: [null, []]
-  });
+  public userData!: User;
+  public form: FormGroup = this.buildForm();
 
+  public displayedColumns: string[] = ['check', 'name', 'description', 'actions'];
   public profiles: InvestmentProfile[] = [];
   public allCheckboxSelected: boolean = false;
   public profilesSelected: number[] = [];
 
   constructor(
+    private sAuth: sAuth,
     private fb: FormBuilder,
     private sInvestmentProfile: sInvesmentProfile,
-    private dialog: MatDialog
-    ) {}
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.sAuth.getUserData().subscribe({
+      next: (userData) => {
+        this.userData = userData,
+        this.form = this.buildForm();
+        this.getAllProfiles();
+      },
+      error: (error) => console.error(error)
+    });
+  }
 
   ngAfterViewInit(): void {
     this.filterInputs.forEach(input => {
@@ -65,8 +80,16 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    this.getAllProfiles();
+
+  public buildForm() {
+    return this.fb.group({
+      user_id: [this.userData?.id, []],
+      name: ['', []],
+      description: ['', []],
+      initial_capital: [null, []],
+      duration: [null, []],
+      monthly_contribution: [null, []]
+    });
   }
 
   public getAllProfiles() {
@@ -86,10 +109,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe({
       next: (res) => {
+        if (!res) return 
         this.sInvestmentProfile.create(res).subscribe({
           next: (res) => {
             if (res.code === 1) this.getAllProfiles();
-          }, error: (error) => console.log(error)
+          }, error: (error) => console.error(error)
         })
       }, error: (error) => console.error(error)
     })
@@ -107,7 +131,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.sInvestmentProfile.update(res).subscribe({
           next: (res) => {
             if (res.code === 1) this.getAllProfiles();
-          }, error: (error) => console.log(error)
+          }, error: (error) => console.error(error)
         })
       }, error: (error) => console.error(error)
     })
@@ -115,7 +139,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   public deleteProfile(id: number) {
     this.sInvestmentProfile.delete(id).subscribe({
-      next: () => this.getAllProfiles(), 
+      next: () => this.getAllProfiles(),
       error: (error) => console.error(error)
     })
   }
@@ -130,5 +154,9 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       next: () => this.getAllProfiles(),
       error: (error) => console.error(error)
     })
+  }
+
+  public profileDetails(id: number) {
+    this.router.navigate(['/home/details', id]);     
   }
 }

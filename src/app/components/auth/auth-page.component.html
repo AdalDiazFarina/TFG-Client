@@ -1,0 +1,61 @@
+<div class="w-screen h-screen flex lg:flex-row relative">
+  <app-side-panel [@slideAnimation]="slideAnimationState" class="lg:w-1/2 h-full xs:w-full absolute xs:z-0 lg:z-30 "></app-side-panel>
+  <div [@flipAnimation]="flipAnimationState" class="w-screen lg:h-screen xs:h-4/6 flex lg:flex-row xs:flex-col xs:absolute xs:bottom-0">
+    <div *ngIf="flipAnimationState === 'back' || !isMobile" 
+      class="back lg:w-1/2 h-full p-16 flex flex-col justify-center items-center xs:absolute z-10 xs:w-full lg:static bg-white xs:rounded-lg">
+      <div class="content lg:w-2/4 xs:w-3/4 xs:text-center justify-center items-center">
+        <div class="w-full flex flex-col items-center mb-4">
+          <p class="lg:text-5xl xs:text-3xl"> Become a Member </p>
+          <h3 class="text-xl"> Please enter your personal details </h3>
+        </div>
+        <div [formGroup]="form" class="content flex flex-col">
+          <div class="flex flex-row">
+            <mat-form-field class="pr-2">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="John" formControlName="name">
+            </mat-form-field>
+            <mat-form-field class=pl-2>
+              <mat-label>Nickname</mat-label>
+              <input matInput placeholder="johnny" formControlName="nickname">
+            </mat-form-field>
+          </div>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="john@example.com" formControlName="email">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="************" formControlName="password">
+          </mat-form-field>
+          <button class="mt-8" mat-flat-button color="primary" (click)="onRegister()">Sign up</button>
+        </div>
+      </div>
+      <div class="w-full content flex justify-center">
+        <p (click)="this.toogleFormAnimation()" class="pt-8 cursor-pointer">Do you have an account?&nbsp;<span
+          class="font-bold">Sign in</span></p>
+      </div>
+    </div>
+
+    <div *ngIf="flipAnimationState === 'front' || !isMobile" class="front lg:w-1/2 h-full p-16 flex flex-col justify-center items-center xs:absolute z-20 xs:w-full lg:static bg-white xs:rounded-lg">
+      <div class="lg:w-2/4 justify-center items-center">
+        <div class="flex flex-col items-center mb-4">
+          <p class="lg:text-5xl xs:text-3xl"> WelCome Back </p>
+          <h3 class="text-xl"> Please enter your personal details </h3>
+        </div>
+        <div [formGroup]="form" class="flex flex-col">
+          <mat-form-field>
+            <mat-label>Nickname</mat-label>
+            <input matInput placeholder="Nickname" formControlName="nickname">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="Password" matInput placeholder="******" formControlName="password">
+          </mat-form-field>
+          <button class="mt-8" mat-flat-button color="primary" (click)="onLogin()">Sign in</button>
+        </div>
+      </div>
+      <p (click)="this.toogleFormAnimation()" class="pt-8 cursor-pointer">Don't you have an account?&nbsp;<span
+          class="font-bold">Sign up</span></p>
+    </div>
+  </div>
+</div>
