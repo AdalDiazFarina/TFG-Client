@@ -1,0 +1,37 @@
+<div class="w-full h-full px-8 py-2">
+  <div class="py-4"><mat-divider></mat-divider></div>
+  <div>
+    <p class="text-md">Home / user-profile</p>
+    <p class="text-4xl">User Profile</p>
+  </div>
+  <div class="pb-4"><mat-divider></mat-divider></div>
+  <div class="w-full h-22r flex">
+    <mat-card class="w-96 h-full mr-8 relative p-4">
+      <img [src]="'assets/default-profiles/' + selectedImg + '.png'" alt="" class="w-full h-64 object-contain">
+      <div class="flex flex-row w-full mt-4 lg:ml-2 2xl:ml-6">
+        <button (click)="onPopUpUploadImage()" mat-mini-fab color="primary" class="mr-2"><mat-icon>edit</mat-icon></button>
+        <button mat-mini-fab color="warn" (click)="this.selectedImg = 'default-profile'"><mat-icon>delete</mat-icon></button>
+      </div>
+    </mat-card>
+    
+    <mat-card [formGroup]="form" class="flex flex-col w-50r p-4">
+      <div class="flex flex-row w-full">
+        <mat-form-field class="pr-2 w-1/2">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="John" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="pl-2 w-1/2" >
+          <mat-label>Nickname</mat-label>
+          <input matInput placeholder="johnny" formControlName="nickname">
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="john@example.com" formControlName="email">
+      </mat-form-field>
+      <div class="flex justify-end">
+        <button class="mt-2" mat-flat-button color="primary" [disabled]="!this.form.valid" (click)="onSaveUserData()">Save changes</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

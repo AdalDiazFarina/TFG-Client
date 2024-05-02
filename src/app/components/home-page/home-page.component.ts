@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -12,6 +13,7 @@ import { Router, RouterModule } from '@angular/router';
     RouterModule,
     MatButtonModule,
     MatIconModule,
+    MatDividerModule
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
@@ -20,7 +22,7 @@ export class HomePageComponent {
   @ViewChild('menu', { static: true }) sideMenu?: ElementRef;
 
   constructor(
-    private router: Router
+    public router: Router
   ) {}
 
   public onLogout(): void {

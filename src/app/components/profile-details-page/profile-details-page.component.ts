@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import {MatTableModule} from '@angular/material/table';
 import { sTaskService } from '../../services/sTaskService.service';
 
@@ -15,7 +16,8 @@ import { sTaskService } from '../../services/sTaskService.service';
   imports: [
     MatButtonModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatDividerModule
   ],
   templateUrl: './profile-details-page.component.html',
   styleUrl: './profile-details-page.component.scss'
@@ -25,6 +27,7 @@ export class ProfileDetailsPageComponent implements OnInit {
   public dataSource: Strategy[] = [];
   public form: FormGroup = this.buildForm();
   public userData!: User;
+  public id!: Number;
 
   constructor(
     private sTaskService: sTaskService,
@@ -35,6 +38,7 @@ export class ProfileDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
+      this.id = Number(params.get('id'));
       this.form = this.buildForm(Number(params.get('id')));
       this.getAllStrategies();
     });

@@ -1,0 +1,18 @@
+<div class="flex flex-col p-4 h-full w-full">
+  <div class="flex">
+    <div class="w-1/2 h-full bg-zinc-800 mr-4">
+      <div class="w-full h-full p-16">
+        <img [src]="'assets/default-profiles/' + selectedImage + '.png'" alt="Profile Image" class="h-full w-full">
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-4 w-1/2">
+      <div *ngFor="let img of images" class="w-48 h-48 transform hover:scale-110 transition-transform duration-300 cursor-pointer" (click)="selectedImage = img">
+        <img [src]="'assets/default-profiles/' + img + '.png'" alt="Profile Image" class="object-contain">
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row justify-end mt-4">
+    <button mat-flat-button color="accent" class="mr-4" (click)="dialogRef.close()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="onSubmit()">Okey</button>
+  </div>
+</div>

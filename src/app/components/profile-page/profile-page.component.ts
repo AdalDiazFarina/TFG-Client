@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { FlipCardComponent } from '../../shared/components/flip-card/flip-card.component';
@@ -16,8 +17,8 @@ import { InvestmentProfile } from '../../interfaces/iInvestmentProfile';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, fromEvent } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
-import { User } from '../../interfaces/iUser';
 import { sAuth } from '../../services/sAuth.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router } from '@angular/router';
 import { DialogInvestmentprofileComponent } from '../../shared/dialogs/dialog-investmentprofile/dialog-investmentprofile.component';
 
@@ -37,17 +38,43 @@ import { DialogInvestmentprofileComponent } from '../../shared/dialogs/dialog-in
     MatMenuModule,
     MatDividerModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule
+  ],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        transform: 'translateX(300%)'
+      })),
+      state('out', style({
+        transform: 'translateX(400%)',
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
+    ]),
+    trigger('resize', [
+      state('in', style({
+        width: 'calc(100% - 25%)'
+      })),
+      state('out', style({
+        width: '100%'
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
+    ])
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
+  public slideInOut: string  = 'out';
+  public resize: string = 'out';
   @ViewChildren('filter') filterInputs!: QueryList<ElementRef>;
-  public userData!: User;
+  public userData!: any;
   public form: FormGroup = this.buildForm();
+  public currentProfile?: InvestmentProfile;
 
-  public displayedColumns: string[] = ['check', 'name', 'description', 'actions'];
+  public displayedColumns: string[] = ['check', 'profile', 'actions'];
   public profiles: InvestmentProfile[] = [];
   public allCheckboxSelected: boolean = false;
   public profilesSelected: number[] = [];
@@ -115,7 +142,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe({
       next: (res) => {
-        if (!res) return 
+        if (!res) return
+        res.user_id = this.userData.data.id;
         this.sInvestmentProfile.create(res).subscribe({
           next: (res) => {
             if (res.code === 1) this.getAllProfiles();
@@ -138,6 +166,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe({
       next: (res) => {
+        if (!res) return; 
         this.sInvestmentProfile.update(res).subscribe({
           next: (res) => {
             if (res.code === 1) this.getAllProfiles();
@@ -168,5 +197,16 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   public profileDetails(id: number) {
     this.router.navigate(['/home/details', id]);     
+  }
+
+  public toogleSlideOut() {
+    this.slideInOut = 'out';
+    this.resize = 'out';
+  }
+
+  public toogleSlideIn(profile: InvestmentProfile) {
+    this.slideInOut = 'in';
+    this.resize = 'in';
+    this.currentProfile = profile;
   }
 }

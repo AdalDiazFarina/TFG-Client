@@ -5,16 +5,25 @@ module.exports = {
     extend: {
       height: {
         '95': '95%',
+        '22': '5.5rem',
+        '22r': '22rem'
+        
       },
       width: {
         '95': '95%',
+        '50r': '50rem'
       },
       screens: {
         'xs': '300px',
-        'sm': '640px',  // Small devices (tablets and large phones)
-        'md': '768px',  // Medium devices (landscape tablets)
-        'lg': '1024px', // Large devices (desktops)
-        'xl': '1280px', // Extra large devices (large desktops)
+        'sm': '640px', 
+        'md': '768px',  
+        'lg': '1024px', 
+        'xl': '1280px',
+        '2xl': '1370px' 
+      },
+      maxWidth: {
+        '0': '0',
+        '15': '15rem'
       },
     },
   },

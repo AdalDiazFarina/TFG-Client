@@ -36,6 +36,10 @@ export class sAuth {
     }
   }
 
+  getUser(): Observable<any> {
+    return this.http.get<any>(SERVER_URL + this.url + '/user');
+  }
+
   register(model: UserRegister): Observable<any> {
     return this.http.post(SERVER_URL + this.url + '/register', model)
   }
@@ -48,4 +52,7 @@ export class sAuth {
     return this.http.post(SERVER_URL + this.url + '/refresh', {}) as Observable<HttpEvent<any>>;
   }
 
+  update(model: User):  Observable<any> {
+    return this.http.put(SERVER_URL + this.url + '/user', model);
+  }
 }

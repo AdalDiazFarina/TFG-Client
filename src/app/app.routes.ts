@@ -3,6 +3,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { ProfileDetailsPageComponent } from './components/profile-details-page/profile-details-page.component';
 import { AuthPageComponent } from './components/auth/auth-page.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -29,7 +30,12 @@ export const routes: Routes = [
         path: 'details/:id',
         title: 'Profile details',
         component: ProfileDetailsPageComponent
-      }  
+      },
+      {
+        path: 'user-profile',
+        title: 'User profile details',
+        component: UserProfileComponent
+      }, 
     ]
   },
   {

@@ -1,10 +1,12 @@
-.mat-column-name,
 .mat-column-actions {
-  max-width: 130px;
+  min-width: 250px;
+  max-width: 300px;
 }
 
-.mat-column-description {
-  min-width: 400px;
+.mat-column-check {
+  max-width: 60px;
 }
 
-
+.mat-column-profile {
+  width: 100%;
+}

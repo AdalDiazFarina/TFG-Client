@@ -1,6 +1,35 @@
 <div class="flex">
-  <div class="h-screen w-1/5 bg-zinc-800"></div>
-  <div class="w-5/6 h-screen px-8 py-2">
+  <div class="flex flex-col h-screen w-2/12 bg-zinc-800">
+    <div class="h-95 w-full">
+      <div class="w-full flex justify-center py-8">
+        <img src="assets/logo.png" alt="logo" class="object-contain mr-4 h-28 w-28">
+      </div>
+      <div class="py-4"><mat-divider class="bg-white"></mat-divider></div>
+      <p class="pl-8 text-md text-white">Menu</p>
+      <button class="w-full h-16 pl-8" (click)="this.router.navigate(['/home/profiles']);">
+        <div class="flex items-center">
+          <mat-icon class="text-white mr-8">group</mat-icon>
+          <div class="text-white">Profiles</div>
+        </div>
+      </button>
+      <div class="py-4"><mat-divider class="bg-white"></mat-divider></div>
+    </div>
+    <div>
+      <button (click)="this.router.navigate(['/home/user-profile']);" class="w-full h-16 pl-8">
+        <div class="flex items-center">
+          <mat-icon class="text-white mr-8">settings</mat-icon>
+          <div class="text-white">Settings</div>
+        </div>
+      </button>
+      <button (click)="onLogout()" class="w-full h-16 pl-8">
+        <div class="flex items-center">
+          <mat-icon class="text-white mr-8">logout</mat-icon>
+          <div class="text-white">Logout</div>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="w-10/12 h-screen">
     <router-outlet></router-outlet>
   </div>
 </div>
