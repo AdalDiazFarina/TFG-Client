@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -16,11 +17,11 @@ import { sInvesmentProfile } from '../../services/sInvestmentProfiles.service';
 import { InvestmentProfile } from '../../interfaces/iInvestmentProfile';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, fromEvent } from 'rxjs';
-import { MatMenuModule } from '@angular/material/menu';
 import { sAuth } from '../../services/sAuth.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router } from '@angular/router';
 import { DialogInvestmentprofileComponent } from '../../shared/dialogs/dialog-investmentprofile/dialog-investmentprofile.component';
+import { sNotification } from '../../services/sNotificatoin.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -84,13 +85,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private sInvestmentProfile: sInvesmentProfile,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private sNotification: sNotification
   ) {}
 
   ngOnInit(): void {
     this.sAuth.getUserData().subscribe({
       next: (userData) => {
         this.userData = userData,
+        console.log(this.userData)
         this.form = this.buildForm();
         this.getAllProfiles();
       },
@@ -116,7 +119,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       description: ['', []],
       initial_capital: [null, []],
       duration: [null, []],
-      monthly_contribution: [null, []]
+      monthly_contribution: [null, []],
+      img: ['', []]
     });
   }
 
@@ -136,40 +140,46 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         title: "Add a new Investment Profile",
         mode: 0
       },
-      width: '400px',
+      width: '800px',
       height: '500px'
     });
 
     dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (!res) return
-        res.user_id = this.userData.data.id;
+        res.user_id = this.userData.id;
         this.sInvestmentProfile.create(res).subscribe({
           next: (res) => {
-            if (res.code === 1) this.getAllProfiles();
+            if (res.code === 1) {
+              this.getAllProfiles();
+              this.sNotification.showNotification('The profile is created', 'Created');
+            }
           }, error: (error) => console.error(error)
         })
       }, error: (error) => console.error(error)
     })
   }
 
-  public editProfile(profile: InvestmentProfile) {
+  public editProfile(profile: InvestmentProfile, index: number) {
     let dialogRef = this.dialog.open(DialogInvestmentprofileComponent, {
       data: {
         obj: profile,
         title: "Investment Profile",
         mode: 1
       },
-      width: '400px',
+      width: '800px',
       height: '500px'
     });
 
     dialogRef.afterClosed().subscribe({
       next: (res) => {
-        if (!res) return; 
+        if (!res) return;
         this.sInvestmentProfile.update(res).subscribe({
           next: (res) => {
-            if (res.code === 1) this.getAllProfiles();
+            if (res.code === 1) {
+              this.getAllProfiles();
+              this.sNotification.showNotification('The profile is updated', 'Updated');
+            }
           }, error: (error) => console.error(error)
         })
       }, error: (error) => console.error(error)
@@ -185,7 +195,20 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   public onChangeSelectAll() {
     this.allCheckboxSelected = !this.allCheckboxSelected
-    this.profilesSelected = this.profiles.map(profile => profile.id);
+    if (this.allCheckboxSelected) {
+      this.profilesSelected = []
+      this.profilesSelected = this.profiles.map(profile => profile.id);
+    } else {
+      this.profilesSelected = []
+    }
+  }
+
+  public onSelect(id: number) {
+    if (!this.profilesSelected.includes(id)) {
+      this.profilesSelected.push(id)
+    } else {
+      this.profilesSelected = this.profilesSelected.filter(x => x !== id)
+    }
   }
 
   public deleteMultipleProfiles() {
@@ -196,7 +219,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   public profileDetails(id: number) {
-    this.router.navigate(['/home/details', id]);     
+    this.router.navigate(['/home/details', id]);
   }
 
   public toogleSlideOut() {

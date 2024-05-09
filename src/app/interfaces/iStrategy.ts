@@ -1,7 +1,9 @@
 export interface Strategy {
+  profile_id: number,
+  strategy_id: number,
   name: string,
   description: string,
-  Total_profitability: number, 
+  Total_profitability: number,
   Volatility: number,
   Maximum_loss: number,
   Sharpe: number,

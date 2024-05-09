@@ -1,4 +1,17 @@
-<div class="w-full px-8 py-2">
+<div class="w-full h-screen px-8 py-2 flex flex-col">
+  <div [formGroup]="form" class="flex w-full h-20 pt-4">
+    <mat-form-field class="w-95 h-20">
+      <div class="flex flex-row items-center">
+        <mat-icon class="mr-2">search</mat-icon>
+        <input #filter matInput placeholder="What profile are you looking for?" formControlName="name">
+      </div>
+    </mat-form-field>
+    <div class="flex justify-center items-center pb-2">
+      <button class="ml-2" mat-mini-fab color="primary">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    </div>
+  </div>
   <div class="py-4"><mat-divider></mat-divider></div>
   <div>
     <p class="text-md">Home / details / {{this.id}}</p>
@@ -10,21 +23,21 @@
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
-  
+
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef> No. </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
-  
+
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button (click)="onValidateStrategy()">
+        <button mat-button (click)="onValidateStrategy(element)">
           <mat-icon>play_arrow</mat-icon>
         </button>
       </td>
     </ng-container>
-  
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

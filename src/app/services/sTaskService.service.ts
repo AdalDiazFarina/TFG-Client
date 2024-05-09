@@ -22,7 +22,6 @@ export class sTaskService {
   }
 
   runTask() {
-    console.log("run task");
     this.socket.emit('run_task');
   }
 }

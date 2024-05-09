@@ -11,6 +11,7 @@ import { DialogUploadImageComponent } from '../../shared/dialogs/dialog-upload-i
 import { MatDialog } from '@angular/material/dialog';
 import { sAuth } from '../../services/sAuth.service';
 import { User } from '../../interfaces/iUser';
+import { sNotification } from '../../services/sNotificatoin.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,14 +31,15 @@ import { User } from '../../interfaces/iUser';
   styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent {
-  public selectedImg: string = "default-profile"
+  public selectedImg: string = "1";
   private userData!: User;
   public form: FormGroup = this.buildForm(); 
 
   constructor(
     private fb: FormBuilder,
     private sAuth: sAuth,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sNotification: sNotification
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +71,7 @@ export class UserProfileComponent {
       next: (res) => {
         if (res.code === 1) {
           this.getUser();
+          this.sNotification.showNotification('The user profile is updated', 'Updated');
         }
       }, error: (error) => console.log(error)
     })

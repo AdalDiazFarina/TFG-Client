@@ -30,39 +30,40 @@
       </div>
       <div class="pb-4"><mat-divider></mat-divider></div>
     </div>
-  
+
     <div class="h-4/6 mat-elevation-z8 w-full">
       <table mat-table [dataSource]="profiles" class="mt-2 overflow-auto">
         <ng-container matColumnDef="check">
-          <th mat-header-cell *matHeaderCellDef> <mat-checkbox></mat-checkbox> </th>
+          <th mat-header-cell *matHeaderCellDef> <mat-checkbox (change)="onChangeSelectAll()"></mat-checkbox> </th>
           <td mat-cell *matCellDef="let element">
-            <mat-checkbox></mat-checkbox>
+            <mat-checkbox [checked]="profilesSelected.includes(element.id)" (change)="onSelect(element.id)"></mat-checkbox>
           </td>
         </ng-container>
-    
+
         <ng-container matColumnDef="profile">
           <th mat-header-cell *matHeaderCellDef> Profile </th>
           <td mat-cell *matCellDef="let element" class="max-w-15">
             <div class="flex flex-row w-full items-center py-2">
-              <img src="assets/default-profiles/default-profile.png" alt="profile-img" class="rounded-full object-contain mr-4 h-16 w-16">
-              <div class="flex flex-col h-12 justify-center">
+              <img [src]="'assets/default-profiles/' + (element.img ? element.img : '1') + '.png'" alt=""
+              class="rounded-full object-contain mr-4 w-12">
+              <div class="flex flex-col h-12 justify-center pt-2">
                 <div class="font-bold">{{element.name}}</div>
                 <p class="text-slate-600">{{element.description}}</p>
               </div>
             </div>
           </td>
         </ng-container>
-    
+
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="editProfile(element)"><mat-icon>edit</mat-icon></button>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button mat-icon-button (click)="editProfile(element, i)"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button (click)="toogleSlideIn(element)"><mat-icon>description</mat-icon></button>
             <button mat-icon-button (click)="deleteProfile(element.id)"><mat-icon>delete</mat-icon></button>
             <button mat-icon-button (click)="profileDetails(element.id)"><mat-icon>play_arrow</mat-icon></button>
           </td>
         </ng-container>
-    
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
@@ -82,7 +83,7 @@
     </div>
     <div class="pb-4"><mat-divider class="bg-white"></mat-divider></div>
     <div class="w-full h-1/4 flex items-center justify-center">
-      <div class="xl:py-4 xl:px-8 2xl:p-0"><img src="assets/default-profiles/default-profile.png" alt="profile-img" class="object-contain mr-4 h-48 w-48"></div>
+      <div class="xl:py-4 xl:px-8 2xl:p-0"><img src="assets/default-profiles/1.png" alt="profile-img" class="object-contain mr-4 h-48 w-48"></div>
     </div>
     <div class="w-full py-4">
       <p class="text-2xl text-white">{{this.currentProfile ? this.currentProfile.name : '' }}</p>

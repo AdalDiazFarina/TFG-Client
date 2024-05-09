@@ -7,7 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import {MatTableModule} from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 import { sTaskService } from '../../services/sTaskService.service';
 
 @Component({
@@ -17,6 +21,11 @@ import { sTaskService } from '../../services/sTaskService.service';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
     MatDividerModule
   ],
   templateUrl: './profile-details-page.component.html',
@@ -53,6 +62,7 @@ export class ProfileDetailsPageComponent implements OnInit {
   public buildForm(id?: number) {
     return this.fb.group({
       profile_id: id,
+      strategy_id: null,
       name: '',
       description: '',
       Total_profitability: null,
@@ -68,16 +78,36 @@ export class ProfileDetailsPageComponent implements OnInit {
     });
   }
 
+  private transformData(data: any[]): Strategy[] {
+    console.log('data', data)
+    return data.map(({ strategy, other_data }) => ({
+        "profile_id": other_data.profile_id,
+        "strategy_id": other_data.strategy_id,
+        "name": strategy.name,
+        "description": strategy.description,
+        "Total_profitability": other_data.total_profitability,
+        "Volatility": other_data.volatility,
+        "Maximum_loss": other_data.maximum_loss,
+        "Sharpe": other_data.sharpe,
+        "Sortino": other_data.sortino,
+        "Alpha": other_data.alpha,
+        "Beta": other_data.beta,
+        "Information_ratio": other_data.information_ratio,
+        "Success_rate": other_data.success_rate,
+        "Portfolio_concentration_ratio": other_data.portfolio_concentration_ratio
+    }));
+}
+
+
   public getAllStrategies() {
     this.sStrategies.getList(this.form.value).subscribe({
       next: (res: any) => {
-        console.log(res);
-        this.dataSource = res.data;
+        this.dataSource = this.transformData(res.data);
       }, error: (error: Error) => console.error(error)
     })
   }
 
-  onValidateStrategy() {
+  onValidateStrategy(item: Strategy) {
     this.sTaskService.runTask()
   }
 }
