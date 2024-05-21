@@ -73,7 +73,7 @@ export class UserProfileComponent {
           this.getUser();
           this.sNotification.showNotification('The user profile is updated', 'Updated');
         }
-      }, error: (error) => console.log(error)
+      }, error: (error) => console.error(error)
     })
   }
 

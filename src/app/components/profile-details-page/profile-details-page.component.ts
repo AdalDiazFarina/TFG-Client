@@ -13,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { sTaskService } from '../../services/sTaskService.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-details-page',
@@ -23,6 +24,7 @@ import { sTaskService } from '../../services/sTaskService.service';
     MatTableModule,
     MatFormFieldModule,
     MatMenuModule,
+    CommonModule,
     FormsModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -32,11 +34,12 @@ import { sTaskService } from '../../services/sTaskService.service';
   styleUrl: './profile-details-page.component.scss'
 })
 export class ProfileDetailsPageComponent implements OnInit {
-  public displayedColumns: string[] = ['name', 'description', 'actions'];
+  public displayedColumns: string[] = ['name', 'description', 'loader', 'actions'];
   public dataSource: Strategy[] = [];
   public form: FormGroup = this.buildForm();
   public userData!: User;
   public id!: Number;
+  private loadingItems: Set<Strategy> = new Set<Strategy>();
 
   constructor(
     private sTaskService: sTaskService,
@@ -54,9 +57,15 @@ export class ProfileDetailsPageComponent implements OnInit {
 
     this.sTaskService.taskCompleted$.subscribe({
       next: (resp: any) => {
-        console.log(resp);
-      }, error: (error) => console.log(error)
-    })
+        for (let item of this.loadingItems) {
+          if (item.strategy_id === resp.strategy_id && item.profile_id === resp.profile_id) {
+            this.loadingItems.delete(item);
+          }
+        }
+        this.getAllStrategies();
+      },
+      error: (error) => console.error('Error en la respuesta del servidor:', error)
+    });
   }
 
   public buildForm(id?: number) {
@@ -79,9 +88,8 @@ export class ProfileDetailsPageComponent implements OnInit {
   }
 
   private transformData(data: any[]): Strategy[] {
-    console.log('data', data)
     return data.map(({ strategy, other_data }) => ({
-        "profile_id": other_data.profile_id,
+        "profile_id": other_data.investment_profile_id,
         "strategy_id": other_data.strategy_id,
         "name": strategy.name,
         "description": strategy.description,
@@ -108,6 +116,17 @@ export class ProfileDetailsPageComponent implements OnInit {
   }
 
   onValidateStrategy(item: Strategy) {
-    this.sTaskService.runTask()
+    this.loadingItems.add(item);
+    this.sTaskService.runTask({
+      "profile_id": item.profile_id,
+      "strategy_id": item.strategy_id,
+      "name": item.name
+    })
+  }
+
+  isLoading(item: Strategy) {
+    const isLoading = this.loadingItems.has(item);
+    console.log("Element:", item, "is loading:", isLoading);
+    return isLoading;
   }
 }

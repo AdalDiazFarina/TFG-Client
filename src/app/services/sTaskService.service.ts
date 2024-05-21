@@ -5,7 +5,7 @@ import { Socket } from 'ngx-socket-io';
   providedIn: 'root'
 })
 export class sTaskService {
-  taskCompleted$ = this.socket.fromEvent('task_completed');
+  taskCompleted$ = this.socket.fromEvent<any>('task_completed');
 
   constructor(private socket: Socket) {
     this.socket.on('connect', () => {
@@ -21,7 +21,7 @@ export class sTaskService {
     });
   }
 
-  runTask() {
-    this.socket.emit('run_task');
+  runTask(message: any) {
+    this.socket.emit('run_task', message);
   }
 }
