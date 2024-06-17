@@ -1,0 +1,96 @@
+<div class="flex items-center justify-between">
+  <h2 mat-dialog-title>{{data.title}}</h2>
+  <button mat-icon-button class="mr-2 mb-2" color="warn"
+    (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="pl-4">
+  <mat-tab-group>
+    <mat-tab label="Report">
+      <div class="h-112 overflow-auto pt-4">
+        <div>
+          <h1>{{this.strategy.name}}</h1>
+          <p>{{this.strategy.description}}</p>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <p>{{reportTexts.section1.content}}</p>
+        </div>
+        <div>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Tabla</p></div>
+          <p>{{reportTexts.section2.content}}</p>
+        </div>
+        <div>
+          <h2>{{reportTexts.section3.heading}}</h2>
+          <h3>Period 1</h3>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <h3>Period 2</h3>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <h3>Period 3</h3>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <p>{{reportTexts.section3.content}}</p>
+        </div>
+        <div>
+          <h2>{{reportTexts.section4.heading}}</h2>
+          <h3>Period 1</h3>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <h3>Period 2</h3>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <h3>Period 3</h3>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <p>{{reportTexts.section4.content}}</p>
+        </div>
+        <div>
+          <h2>{{reportTexts.section5.heading}}</h2>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
+          <p>{{reportTexts.section5.content}}</p>
+        </div>
+        <div>
+          <h2>{{reportTexts.section6.heading}}</h2>
+          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Tabla</p></div>
+          <p>{{reportTexts.section6.content}}</p>
+        </div>
+        <div class="pr-4 w-full flex flex-col justify-center items-center">
+          <div class="flex w-full mb-2">
+            <div class="w-1/2 py-2 px-4 mr-2 h-40 bg-emerald-500">
+              <h2 class="text-white">{{reportTexts.section7.heading}}</h2>
+              <div class="flex justify-center items-center">
+                <span class="text-white text-5xl">{{strategy.Success_rate === 0 ? '---' : strategy.Success_rate}}<span *ngIf="strategy.Success_rate !== 0">%</span></span>
+              </div>
+            </div>
+            <div class="w-1/2 py-2 px-4 h-40 bg-teal-500">
+              <h2 class="text-white">{{reportTexts.section8.heading}}</h2>
+              <div class="flex justify-center items-center">
+                <span class="text-white text-5xl">---</span>
+              </div>
+            </div>
+          </div>
+          <div class="w-1/2 py-2 px-4 h-40 bg-cyan-500">
+            <h2 class="text-white">{{reportTexts.section9.heading}}</h2>
+            <div class="flex justify-center items-center">
+              <span class="text-white text-5xl">{{strategy.Portfolio_concentration_ratio}}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Summary">
+      <div class="h-112 overflow-auto">
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value === 0 ? '---' : element.value}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

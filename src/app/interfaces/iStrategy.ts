@@ -1,6 +1,7 @@
 export interface Strategy {
   profile_id: number,
   strategy_id: number,
+  validated: boolean,
   name: string,
   description: string,
   Total_profitability: number,

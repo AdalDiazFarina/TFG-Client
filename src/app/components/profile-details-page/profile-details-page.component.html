@@ -37,7 +37,8 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button [disabled]="element.Total_profitability === 0">
+        <button mat-button [disabled]="!element.validated"
+        (click)="openDialog(element)">
           <mat-icon>description</mat-icon>
         </button>
         <button mat-button (click)="onValidateStrategy(element)">

@@ -73,7 +73,6 @@ export class AuthPageComponent {
     this.form.get('email')?.setValue('');
     this.sAuth.login(this.form.value).subscribe({
       next: (res) => {
-        console.log(res)
         if (res.code === 1) {
           localStorage.setItem('accessToken', res.access_token);
           localStorage.setItem('refreshToken', res.refresh_token);

@@ -14,6 +14,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { sTaskService } from '../../services/sTaskService.service';
 import { CommonModule } from '@angular/common';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
+import { DialogProfileDetailsComponent } from '../../shared/dialogs/dialog-profile-details/dialog-profile-details.component';
 
 @Component({
   selector: 'app-profile-details-page',
@@ -45,7 +55,8 @@ export class ProfileDetailsPageComponent implements OnInit {
     private sTaskService: sTaskService,
     private fb: FormBuilder,
     private sStrategies: sStrategies,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -91,6 +102,7 @@ export class ProfileDetailsPageComponent implements OnInit {
     return data.map(({ strategy, other_data }) => ({
         "profile_id": other_data.investment_profile_id,
         "strategy_id": other_data.strategy_id,
+        "validated": other_data.validated,
         "name": strategy.name,
         "description": strategy.description,
         "Total_profitability": other_data.total_profitability,
@@ -116,6 +128,7 @@ export class ProfileDetailsPageComponent implements OnInit {
   }
 
   onValidateStrategy(item: Strategy) {
+    console.log(item)
     this.loadingItems.add(item);
     this.sTaskService.runTask({
       "profile_id": item.profile_id,
@@ -126,7 +139,19 @@ export class ProfileDetailsPageComponent implements OnInit {
 
   isLoading(item: Strategy) {
     const isLoading = this.loadingItems.has(item);
-    console.log("Element:", item, "is loading:", isLoading);
     return isLoading;
   }
+
+  openDialog(strategy: Strategy): void {
+    const dialogRef = this.dialog.open(DialogProfileDetailsComponent, {
+      data: {
+        title: strategy.name,
+        obj: strategy
+      },
+      width: '800px',
+      height: '600px'
+    });
+  }
+
+
 }

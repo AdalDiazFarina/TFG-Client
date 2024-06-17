@@ -1,0 +1,33 @@
+{
+  "section1": {
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper sapien at ante sagittis, sit amet dignissim tortor venenatis. Suspendisse potenti. In ac semper orci. Suspendisse id aliquam nunc. Mauris consectetur metus maximus, dignissim elit et, pulvinar metus. Aliquam sit amet bibendum nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam lobortis non metus at imperdiet. Integer vitae justo arcu."
+  },
+  "section2": {
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper sapien at ante sagittis, sit amet dignissim tortor venenatis. Suspendisse potenti. In ac semper orci. Suspendisse id aliquam nunc. Mauris consectetur metus maximus, dignissim elit et, pulvinar metus. Aliquam sit amet bibendum nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam lobortis non metus at imperdiet. Integer vitae justo arcu."
+  },
+  "section3": {
+    "heading": "Annual Return",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper sapien at ante sagittis, sit amet dignissim tortor venenatis. Suspendisse potenti. In ac semper orci. Suspendisse id aliquam nunc. Mauris consectetur metus maximus, dignissim elit et, pulvinar metus. Aliquam sit amet bibendum nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam lobortis non metus at imperdiet. Integer vitae justo arcu."
+  },
+  "section4": {
+    "heading": "Volatility",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper sapien at ante sagittis, sit amet dignissim tortor venenatis. Suspendisse potenti. In ac semper orci. Suspendisse id aliquam nunc. Mauris consectetur metus maximus, dignissim elit et, pulvinar metus. Aliquam sit amet bibendum nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam lobortis non metus at imperdiet. Integer vitae justo arcu."
+  },
+  "section5": {
+    "heading": "Maximum Loss",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper sapien at ante sagittis, sit amet dignissim tortor venenatis. Suspendisse potenti. In ac semper orci. Suspendisse id aliquam nunc. Mauris consectetur metus maximus, dignissim elit et, pulvinar metus. Aliquam sit amet bibendum nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam lobortis non metus at imperdiet. Integer vitae justo arcu."
+  },
+  "section6": {
+    "heading": "Ratios",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper sapien at ante sagittis, sit amet dignissim tortor venenatis. Suspendisse potenti. In ac semper orci. Suspendisse id aliquam nunc. Mauris consectetur metus maximus, dignissim elit et, pulvinar metus. Aliquam sit amet bibendum nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam lobortis non metus at imperdiet. Integer vitae justo arcu."
+  },
+  "section7": {
+    "heading": "Sucess Rate"
+  },
+  "section8": {
+    "heading": "Recovery Factor"
+  },
+  "section9": {
+    "heading": "Portfolio Concentration Rate"
+  }
+}

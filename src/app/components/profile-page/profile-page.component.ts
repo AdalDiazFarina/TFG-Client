@@ -93,7 +93,6 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.sAuth.getUserData().subscribe({
       next: (userData) => {
         this.userData = userData,
-        console.log(this.userData)
         this.form = this.buildForm();
         this.getAllProfiles();
       },
