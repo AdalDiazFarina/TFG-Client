@@ -8,6 +8,7 @@ import { Router, RouterModule } from '@angular/router';
 import { sAuth } from '../../services/sAuth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/iUser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-home-page',
@@ -18,7 +19,8 @@ import { User } from '../../interfaces/iUser';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
@@ -27,6 +29,7 @@ export class HomePageComponent implements OnInit {
   @ViewChild('menu', { static: true }) sideMenu?: ElementRef;
   public form: FormGroup = this.buildForm();
   public userData!: User;
+  public isLoading = true;
 
   constructor (
     private fb: FormBuilder,
@@ -39,13 +42,18 @@ export class HomePageComponent implements OnInit {
       next: (userData) => {
         this.userData = userData,
         this.form = this.buildForm();
+        this.isLoading = false;
       },
-      error: (error) => console.error(error)
+      error: (error) => {
+        console.error(error);
+        this.isLoading = false;
+      }
     });
   }
 
   public onLogout(): void {
     localStorage.clear();
+    this.sAuth.clearUser();
     this.router.navigate(['/auth']);
   }
 

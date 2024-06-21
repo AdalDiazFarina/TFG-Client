@@ -46,12 +46,7 @@ import { HostListener } from '@angular/core';
   styleUrl: './auth-page.component.scss'
 })
 export class AuthPageComponent {
-  public form: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(15)]],
-    nickname: ['', [Validators.required, Validators.minLength(4)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
-  });
+  public form: FormGroup; 
 
   public slideAnimationState = 'in';
   public flipAnimationState = 'front';
@@ -61,7 +56,14 @@ export class AuthPageComponent {
     private fb: FormBuilder,
     private sAuth: sAuth,
     private router: Router
-  ) { }
+  ) { 
+    this.form = this.fb.group({
+      name: ['', [Validators.required, Validators.maxLength(15)]],
+      nickname: ['', [Validators.required, Validators.minLength(4)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -69,8 +71,9 @@ export class AuthPageComponent {
   }
 
   onLogin() {
-    this.form.get('name')?.setValue('');
-    this.form.get('email')?.setValue('');
+    const nickname = this.form.get('nickname')!.value;
+    const password = this.form.get('password')!.value;
+    console.log(`nickname: ${nickname}, password: ${password}`)
     this.sAuth.login(this.form.value).subscribe({
       next: (res) => {
         if (res.code === 1) {
@@ -85,6 +88,48 @@ export class AuthPageComponent {
         console.error(error);
       }
     });
+    this.form.reset();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
   }
 
   onRegister() {

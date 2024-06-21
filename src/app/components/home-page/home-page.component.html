@@ -6,10 +6,10 @@
       </div>
       <div class="w-full p-4">
         <div class="flex flex-row w-full items-center mb-1">
-          <div class="text-md font-medium text-white mr-1">{{this.userData ? this.userData.name : '' }}</div>
-          <mat-chip>{{this.userData ? this.userData.nickname : '' }}</mat-chip>
+          <div class="text-md font-medium text-white mr-1">{{ this.userData.name }}</div>
+          <mat-chip>{{ this.userData.nickname }}</mat-chip>
         </div>
-        <p class="text-md text-white w-full overflow-hidden overflow-ellipsis whitespace-nowrap">{{this.userData ? this.userData.email : '' }}</p>
+        <p class="text-md text-white w-full overflow-hidden overflow-ellipsis whitespace-nowrap">{{ this.userData.email }}</p>
       </div>
       <div class="py-4"><mat-divider class="bg-white"></mat-divider></div>
       <p class="pl-8 text-md text-white">Menu</p>
@@ -37,6 +37,9 @@
     </div>
   </div>
   <div class="w-10/12 h-screen">
-    <router-outlet></router-outlet>
+    <div *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <router-outlet *ngIf="!isLoading"></router-outlet>
   </div>
 </div>

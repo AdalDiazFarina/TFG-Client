@@ -55,4 +55,8 @@ export class sAuth {
   update(model: User):  Observable<any> {
     return this.http.put(SERVER_URL + this.url + '/user', model);
   }
+
+  clearUser() {
+    this.userData = undefined
+  }
 }
