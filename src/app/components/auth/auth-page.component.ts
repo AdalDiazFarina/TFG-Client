@@ -90,7 +90,7 @@ export class AuthPageComponent {
   onRegister() {
     this.sAuth.register(this.form.value).subscribe({
       next: () => {
-        this.slideAnimationState = 'out';
+        this.slideAnimationState = 'in';
       },
       error: (error) => {
         console.error(error);

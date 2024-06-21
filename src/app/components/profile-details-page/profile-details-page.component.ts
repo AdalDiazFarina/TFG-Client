@@ -99,22 +99,22 @@ export class ProfileDetailsPageComponent implements OnInit {
   }
 
   private transformData(data: any[]): Strategy[] {
-    return data.map(({ strategy, other_data }) => ({
-        "profile_id": other_data.investment_profile_id,
-        "strategy_id": other_data.strategy_id,
-        "validated": other_data.validated,
+    return data.map(({ strategy, profile_strategy }) => ({
+        "profile_id": profile_strategy.investment_profile_id,
+        "strategy_id": profile_strategy.strategy_id,
+        "validated": profile_strategy.validated,
         "name": strategy.name,
         "description": strategy.description,
-        "Total_profitability": other_data.total_profitability,
-        "Volatility": other_data.volatility,
-        "Maximum_loss": other_data.maximum_loss,
-        "Sharpe": other_data.sharpe,
-        "Sortino": other_data.sortino,
-        "Alpha": other_data.alpha,
-        "Beta": other_data.beta,
-        "Information_ratio": other_data.information_ratio,
-        "Success_rate": other_data.success_rate,
-        "Portfolio_concentration_ratio": other_data.portfolio_concentration_ratio
+        "Total_profitability": profile_strategy.total_profitability,
+        "Volatility": profile_strategy.volatility,
+        "Maximum_loss": profile_strategy.maximum_loss,
+        "Sharpe": profile_strategy.sharpe,
+        "Sortino": profile_strategy.sortino,
+        "Alpha": profile_strategy.alpha,
+        "Beta": profile_strategy.beta,
+        "Information_ratio": profile_strategy.information_ratio,
+        "Success_rate": profile_strategy.success_rate,
+        "Portfolio_concentration_ratio": profile_strategy.portfolio_concentration_ratio
     }));
 }
 
@@ -122,6 +122,7 @@ export class ProfileDetailsPageComponent implements OnInit {
   public getAllStrategies() {
     this.sStrategies.getList(this.form.value).subscribe({
       next: (res: any) => {
+        console.log('res: ', res)
         this.dataSource = this.transformData(res.data);
       }, error: (error: Error) => console.error(error)
     })
