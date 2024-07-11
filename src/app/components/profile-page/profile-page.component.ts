@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -96,8 +96,13 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   public form: FormGroup = this.buildForm();
   public currentProfile?: InvestmentProfile;
 
+  public total: number = 0;
+  public pageIndex: number = 0;
+  public pageSize: number = 5;
+
   public displayedColumns: string[] = ['check', 'profile', 'actions'];
   public profiles: InvestmentProfile[] = [];
+  public profilesTable: InvestmentProfile[] = [];
   public allCheckboxSelected: boolean = false;
   public profilesSelected: number[] = [];
 
@@ -148,6 +153,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.sInvestmentProfile.getList(this.form.value).subscribe({
       next: (res) => {
         this.profiles = res.data;
+        this.total = this.profiles.length;
+        this.profilesTable = this.profiles.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
       },
       error: (error) => console.error(error)
     })
@@ -258,5 +265,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.filters = this.filters === 'in' ? 'out' : 'in';
     this.slideInOut = this.filters === 'in' ? 'out' : this.slideInOut;
     this.resize = this.filters === 'in' ? 'in' : 'out';
+  }
+
+  onPaginateChange(e: PageEvent) {
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+    let end: number = this.profiles.length < (this.pageIndex * this.pageSize) + this.pageSize ? this.profiles.length : (this.pageIndex * this.pageSize) + this.pageSize
+    this.profilesTable = this.profiles.slice(this.pageIndex * this.pageSize, end)
   }
 }
