@@ -21,6 +21,7 @@ export const tokenInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, n
   return next(request).pipe(
     // If we catch an error, we renew the token
     catchError(error => {
+      console.log("Falle aqui", error)
       if (error.status === 401 && refreshToken) {
         return authService.$refreshToken().next(true);
       }

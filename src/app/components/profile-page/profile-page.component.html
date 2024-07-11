@@ -11,7 +11,7 @@
         <button class="ml-4" mat-mini-fab color="primary" (click)="addProfile()">
           <mat-icon>add</mat-icon>
         </button>
-        <button class="ml-2" mat-mini-fab color="primary">
+        <button (click)="toogleFilters()" class="ml-2" mat-mini-fab color="primary">
           <mat-icon>filter_list</mat-icon>
         </button>
         <button class="ml-2" [matMenuTriggerFor]="menu" mat-mini-fab color="primary">
@@ -110,5 +110,8 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div [@filters]="filters" class="w-3/12 flex flex-col h-full bg-zinc-800 px-8 py-4 absolute z-10">
   </div>
 </div>

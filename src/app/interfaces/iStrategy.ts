@@ -13,5 +13,6 @@ export interface Strategy {
   Beta: number,
   Information_ratio: number,
   Success_rate: number,
-  Portfolio_concentration_ratio: number
+  Portfolio_concentration_ratio: number,
+  annual_return: number
 }

@@ -62,6 +62,26 @@ import { sNotification } from '../../services/sNotificatoin.service';
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
+    ]),
+    trigger('filters', [
+      state('in', style({
+        transform: 'translateX(300%)'
+      })),
+      state('out', style({
+        transform: 'translateX(400%)',
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
+    ]),
+    trigger('resize', [
+      state('in', style({
+        width: 'calc(100% - 25%)'
+      })),
+      state('out', style({
+        width: '100%'
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
     ])
   ],
   templateUrl: './profile-page.component.html',
@@ -69,6 +89,7 @@ import { sNotification } from '../../services/sNotificatoin.service';
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
   public slideInOut: string  = 'out';
+  public filters: string = 'out';
   public resize: string = 'out';
   @ViewChildren('filter') filterInputs!: QueryList<ElementRef>;
   public userData!: any;
@@ -228,7 +249,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   public toogleSlideIn(profile: InvestmentProfile) {
     this.slideInOut = 'in';
+    this.filters = 'out';
     this.resize = 'in';
     this.currentProfile = profile;
+  }
+
+  public toogleFilters() {
+    this.filters = this.filters === 'in' ? 'out' : 'in';
+    this.slideInOut = this.filters === 'in' ? 'out' : this.slideInOut;
+    this.resize = this.filters === 'in' ? 'in' : 'out';
   }
 }

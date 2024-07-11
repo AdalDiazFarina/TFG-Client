@@ -5,78 +5,230 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class="pl-4">
+<div class="px-8">
   <mat-tab-group>
     <mat-tab label="Report">
-      <div class="h-112 overflow-auto pt-4">
-        <div>
+      <div class="h-full w-full flex flex-col justify-center items-center">
+        <div class="overflow-auto my-4 ml-4 h-112 w-95 custom-card py-4 px-4">
+          <div class="pt-4"></div>
           <h1>{{this.strategy.name}}</h1>
           <p>{{this.strategy.description}}</p>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <p>{{reportTexts.section1.content}}</p>
-        </div>
-        <div>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Tabla</p></div>
-          <p>{{reportTexts.section2.content}}</p>
-        </div>
-        <div>
-          <h2>{{reportTexts.section3.heading}}</h2>
-          <h3>Period 1</h3>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <h3>Period 2</h3>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <h3>Period 3</h3>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <p>{{reportTexts.section3.content}}</p>
-        </div>
-        <div>
-          <h2>{{reportTexts.section4.heading}}</h2>
-          <h3>Period 1</h3>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <h3>Period 2</h3>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <h3>Period 3</h3>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <p>{{reportTexts.section4.content}}</p>
-        </div>
-        <div>
-          <h2>{{reportTexts.section5.heading}}</h2>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Gráfico</p></div>
-          <p>{{reportTexts.section5.content}}</p>
-        </div>
-        <div>
-          <h2>{{reportTexts.section6.heading}}</h2>
-          <div class="w-95 bg-gray-500 h-64 flex justify-center items-center text-white mb-2"><p>Tabla</p></div>
-          <p>{{reportTexts.section6.content}}</p>
-        </div>
-        <div class="pr-4 w-full flex flex-col justify-center items-center">
-          <div class="flex w-full mb-2">
-            <div class="w-1/2 py-2 px-4 mr-2 h-40 bg-emerald-500">
-              <h2 class="text-white">{{reportTexts.section7.heading}}</h2>
-              <div class="flex justify-center items-center">
-                <span class="text-white text-5xl">{{strategy.Success_rate === 0 ? '---' : strategy.Success_rate}}<span *ngIf="strategy.Success_rate !== 0">%</span></span>
-              </div>
-            </div>
-            <div class="w-1/2 py-2 px-4 h-40 bg-teal-500">
-              <h2 class="text-white">{{reportTexts.section8.heading}}</h2>
-              <div class="flex justify-center items-center">
-                <span class="text-white text-5xl">---</span>
-              </div>
-            </div>
+          <div *ngFor="let text of reportTexts.section0.content">
+            <p>{{text}}</p>
           </div>
-          <div class="w-1/2 py-2 px-4 h-40 bg-cyan-500">
-            <h2 class="text-white">{{reportTexts.section9.heading}}</h2>
-            <div class="flex justify-center items-center">
-              <span class="text-white text-5xl">{{strategy.Portfolio_concentration_ratio}}%</span>
+          <div *ngIf="this.operationsPeriod3.length > 0" >
+            <div>
+              <div class="w-95 mb-4">
+                <ng-container>
+                  <app-total-return-graphic
+                    [title]="'Total return'"
+                    [indexs]="indexs" 
+                    [operationsPeriod1]="operationsPeriod1"
+                    [operationsPeriod2]="operationsPeriod2"
+                    [operationsPeriod3]="operationsPeriod3"
+                    [savingReturns]="savingReturns">
+                  </app-total-return-graphic>
+                  <app-individual-total-return-graphic
+                    [id]="'chart_period_1'"
+                    [tag]="'Period 1'"
+                    [borderColor]="'rgb(135, 206, 235)'"
+                    [backgroundColor]="'rgba(135, 206, 235, 0.2)'"
+                    [title]="'Total return of Period 1'"
+                    [indexs]="indexs" 
+                    [operationsPeriod]="operationsPeriod1"
+                    [savingReturns]="savingReturns">
+                  </app-individual-total-return-graphic>
+                  <app-individual-total-return-graphic
+                    [id]="'chart_period_2'"
+                    [tag]="'Period 2'"
+                    [borderColor]="'rgb(255, 127, 80)'"
+                    [backgroundColor]="'rgba(255, 127, 80, 0.2)'"
+                    [title]="'Total return of Period 2'"
+                    [indexs]="indexs" 
+                    [operationsPeriod]="operationsPeriod2"
+                    [savingReturns]="savingReturns">
+                  </app-individual-total-return-graphic>
+                  <app-individual-total-return-graphic
+                    [id]="'chart_period_3'"
+                    [tag]="'Period 3'"
+                    [borderColor]="'rgb(60, 179, 113)'"
+                    [backgroundColor]="'rgba(60, 179, 113, 0.2)'"
+                    [title]="'Total return of Period 3'"
+                    [indexs]="indexs" 
+                    [operationsPeriod]="operationsPeriod3"
+                    [savingReturns]="savingReturns">
+                  </app-individual-total-return-graphic>
+                </ng-container>
+              </div>
+              <div *ngFor="let text of reportTexts.section1.content">
+                <p>{{text}}</p>
+              </div>
+            </div>
+            <div>
+              <div class="w-95 pl-8 my-4">
+                <table mat-table [dataSource]="tablaDataVariables" class="mat-elevation-z8">
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> Value </th>
+                    <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+                  </ng-container>
+        
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+              <div *ngFor="let text of reportTexts.section2.content">
+                <p>{{text}}</p>
+              </div>
+            </div>
+            <div>
+              <h2>{{reportTexts.section3.heading}}</h2>
+              <div *ngFor="let text of reportTexts.section3.content">
+                <p>{{text}}</p>
+              </div>
+              <h3>Period 1</h3>
+                <app-annual-return-graphic
+                  [id]="'MyHistogram1'"
+                  [title]="'Annual return period 1'"
+                  [operationsPeriod]="operationsPeriod1"
+                  [profile]="profile">
+                </app-annual-return-graphic>
+              <h3>Period 2</h3>
+                <app-annual-return-graphic
+                  [id]="'MyHistogram2'"
+                  [title]="'Annual return period 2'"
+                  [operationsPeriod]="operationsPeriod2"
+                  [profile]="profile">
+                </app-annual-return-graphic>
+              <h3>Period 3</h3>
+                <app-annual-return-graphic
+                  [id]="'MyHistogram3'"
+                  [title]="'Annual return period 1'"
+                  [operationsPeriod]="operationsPeriod3"
+                  [profile]="profile">
+                </app-annual-return-graphic>
+            </div>
+            <div>
+              <h2>{{reportTexts.section4.heading}}</h2>
+              <div *ngFor="let text of reportTexts.section4.content">
+                <p>{{text}}</p>
+              </div>
+              <h3>Period 1</h3>
+              <app-volatility-graphic
+                [id]="'Volatility1'"
+                [title]="'Volatility period 1'"
+                [indexs]="indexs"
+                [profile]="profile"
+                [strategy]="strategy"
+                [operationsPeriod]="operationsPeriod1"
+              ></app-volatility-graphic>
+              <h3>Period 2</h3>
+              <app-volatility-graphic
+                [id]="'Volatility2'"
+                [title]="'Volatility period 2'"
+                [indexs]="indexs"
+                [profile]="profile"
+                [strategy]="strategy"
+                [operationsPeriod]="operationsPeriod2"
+              ></app-volatility-graphic>
+              <h3>Period 3</h3>
+              <app-volatility-graphic
+                [id]="'Volatility3'"
+                [title]="'Volatility period 3'"
+                [indexs]="indexs"
+                [profile]="profile"
+                [strategy]="strategy"
+                [operationsPeriod]="operationsPeriod3"
+              ></app-volatility-graphic>
+            </div>
+            <div>
+              <h2>{{reportTexts.section5.heading}}</h2>
+              <div *ngFor="let text of reportTexts.section5.content">
+                <p>{{text}}</p>
+              </div>
+              <price-variation-graphic
+                [id]="'price-variation-chart1'"
+                [tag]="'Movement period 1'"
+                [borderColor]="'rgb(135, 206, 235)'"
+                [backgroundColor]="'rgba(135, 206, 235, 0.2)'"
+                [title]="'Price Variations'"
+                [indexs]="indexs" 
+                [operationsPeriod]="operationsPeriod1">
+              </price-variation-graphic>
+              <price-variation-graphic
+                [id]="'price-variation-chart2'"
+                [tag]="'Movement period 2'"
+                [borderColor]="'rgb(255, 127, 80)'"
+                [backgroundColor]="'rgba(255, 127, 80, 0.2)'"
+                [title]="'Price Variations'"
+                [indexs]="indexs" 
+                [operationsPeriod]="operationsPeriod2">
+              </price-variation-graphic>
+              <price-variation-graphic
+                [id]="'price-variation-chart3'"
+                [tag]="'Movement period 3'"
+                [borderColor]="'rgb(60, 179, 113)'"
+                [backgroundColor]="'rgba(60, 179, 113, 0.2)'"
+                [title]="'Price Variations'"
+                [indexs]="indexs" 
+                [operationsPeriod]="operationsPeriod3">
+              </price-variation-graphic>
+            </div>
+            <div>
+              <h2>{{reportTexts.section6.heading}}</h2>
+              <div *ngFor="let text of reportTexts.section6.content">
+                <p>{{text}}</p>
+              </div>
+              <div class="w-95 pl-8 my-4">
+                <table mat-table [dataSource]="tablaDataRatios" class="mat-elevation-z8">
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> Value </th>
+                    <td mat-cell *matCellDef="let element"> {{element.value | limitDecimals:2}} </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+            </div>
+            <div class="pr-4 w-full flex flex-col justify-center items-center">
+              <div class="flex w-full mb-2">
+                <div class="w-1/2 py-2 px-4 mr-2 h-40 bg-emerald-500">
+                  <h2 class="text-white">{{reportTexts.section7.heading}}</h2>
+                  <div class="flex justify-center items-center">
+                    <span class="text-white text-5xl">{{strategy.Success_rate === 0 ? '---' : strategy.Success_rate | limitDecimals:2}}<span *ngIf="strategy.Success_rate !== 0">%</span></span>
+                  </div>
+                </div>
+                <div class="w-1/2 py-2 px-4 h-40 bg-teal-500">
+                  <h2 class="text-white">{{reportTexts.section8.heading}}</h2>
+                  <div class="flex justify-center items-center">
+                    <span class="text-white text-5xl">---</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2 py-2 px-4 h-40 bg-cyan-500">
+                <h2 class="text-white">{{reportTexts.section9.heading}}</h2>
+                <div class="flex justify-center items-center">
+                  <span class="text-white text-5xl">{{strategy.Portfolio_concentration_ratio | limitDecimals:2}}%</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div *ngIf="this.operationsPeriod3.length <= 0" class="flex justify-center items-center">
+        <mat-spinner></mat-spinner>
+      </div>
     </mat-tab>
     <mat-tab label="Summary">
-      <div class="h-112 overflow-auto">
-
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <div class="h-112 overflow-auto px-4 py-4">
+        <table mat-table [dataSource]="dataSource" class="w-95 mat-elevation-z8">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
             <td mat-cell *matCellDef="let element"> {{element.key}} </td>
@@ -84,7 +236,7 @@
 
           <ng-container matColumnDef="value">
             <th mat-header-cell *matHeaderCellDef> Value </th>
-            <td mat-cell *matCellDef="let element"> {{element.value === 0 ? '---' : element.value}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.value === 0 ? '---' : element.value | limitDecimals:2}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

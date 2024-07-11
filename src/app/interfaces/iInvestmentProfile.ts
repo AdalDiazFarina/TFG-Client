@@ -5,5 +5,5 @@ export interface InvestmentProfile {
   description: string;
   initial_capital: number;
   monthly_contribution: number;
-  duration: Date;
+  duration: number;
 }

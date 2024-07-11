@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Strategy } from '../../interfaces/iStrategy';
 import { User } from '../../interfaces/iUser';
 import { sStrategies } from '../../services/sStrategies.service';
@@ -24,6 +24,9 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { DialogProfileDetailsComponent } from '../../shared/dialogs/dialog-profile-details/dialog-profile-details.component';
+import { sInvesmentProfile } from '../../services/sInvestmentProfiles.service';
+import { InvestmentProfile } from '../../interfaces/iInvestmentProfile';
+import { debounceTime, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-profile-details-page',
@@ -44,17 +47,20 @@ import { DialogProfileDetailsComponent } from '../../shared/dialogs/dialog-profi
   styleUrl: './profile-details-page.component.scss'
 })
 export class ProfileDetailsPageComponent implements OnInit {
+  @ViewChildren('filter') filterInputs!: QueryList<ElementRef>;
   public displayedColumns: string[] = ['name', 'description', 'loader', 'actions'];
   public dataSource: Strategy[] = [];
   public form: FormGroup = this.buildForm();
   public userData!: User;
   public id!: Number;
   private loadingItems: Set<Strategy> = new Set<Strategy>();
+  private profile!: InvestmentProfile;
 
   constructor(
     private sTaskService: sTaskService,
     private fb: FormBuilder,
     private sStrategies: sStrategies,
+    private sProfile: sInvesmentProfile,
     private route: ActivatedRoute,
     public dialog: MatDialog
   ) { }
@@ -66,6 +72,11 @@ export class ProfileDetailsPageComponent implements OnInit {
       this.getAllStrategies();
     });
 
+    this.sProfile.get(this.id).subscribe({
+      next: res => this.profile = res.data,
+      error: error => console.error(error)
+    })
+
     this.sTaskService.taskCompleted$.subscribe({
       next: (resp: any) => {
         for (let item of this.loadingItems) {
@@ -73,9 +84,20 @@ export class ProfileDetailsPageComponent implements OnInit {
             this.loadingItems.delete(item);
           }
         }
+        console.log('sTaskService: ', resp)
         this.getAllStrategies();
       },
       error: (error) => console.error('Error en la respuesta del servidor:', error)
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.filterInputs.forEach(input => {
+      fromEvent(input.nativeElement, 'input')
+        .pipe(debounceTime(700))
+        .subscribe(() => {
+          this.getAllStrategies();
+        });
     });
   }
 
@@ -94,7 +116,8 @@ export class ProfileDetailsPageComponent implements OnInit {
       Beta: null,
       Information_ratio: null,
       Success_rate: null,
-      Portfolio_concentration_ratio: null
+      Portfolio_concentration_ratio: null,
+      annual_return: null,
     });
   }
 
@@ -114,27 +137,30 @@ export class ProfileDetailsPageComponent implements OnInit {
         "Beta": profile_strategy.beta,
         "Information_ratio": profile_strategy.information_ratio,
         "Success_rate": profile_strategy.success_rate,
-        "Portfolio_concentration_ratio": profile_strategy.portfolio_concentration_ratio
+        "Portfolio_concentration_ratio": profile_strategy.portfolio_concentration_ratio,
+        "annual_return": profile_strategy.annual_return 
     }));
 }
 
 
+
   public getAllStrategies() {
+    console.log('form: ', this.form.value)
     this.sStrategies.getList(this.form.value).subscribe({
       next: (res: any) => {
-        console.log('res: ', res)
+        console.log(res);
         this.dataSource = this.transformData(res.data);
       }, error: (error: Error) => console.error(error)
     })
   }
 
   onValidateStrategy(item: Strategy) {
-    console.log(item)
     this.loadingItems.add(item);
     this.sTaskService.runTask({
       "profile_id": item.profile_id,
       "strategy_id": item.strategy_id,
-      "name": item.name
+      "name": item.name,
+      "duration": this.profile.duration
     })
   }
 
@@ -147,10 +173,11 @@ export class ProfileDetailsPageComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogProfileDetailsComponent, {
       data: {
         title: strategy.name,
-        obj: strategy
+        obj: strategy,
+        profile: this.profile
       },
       width: '800px',
-      height: '600px'
+      height: '700px'
     });
   }
 

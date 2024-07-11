@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { trigger, transition, style, state, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { HostListener } from '@angular/core';
+import { sNotification } from '../../services/sNotificatoin.service';
 
 @Component({
   selector: 'app-auth-page',
@@ -22,7 +23,7 @@ import { HostListener } from '@angular/core';
     MatFormFieldModule,
     MatButtonModule,
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   animations: [
     trigger('slideAnimation', [
@@ -55,7 +56,8 @@ export class AuthPageComponent {
   constructor (
     private fb: FormBuilder,
     private sAuth: sAuth,
-    private router: Router
+    private router: Router,
+    private sNotification: sNotification,
   ) { 
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(15)]],
@@ -73,7 +75,6 @@ export class AuthPageComponent {
   onLogin() {
     const nickname = this.form.get('nickname')!.value;
     const password = this.form.get('password')!.value;
-    console.log(`nickname: ${nickname}, password: ${password}`)
     this.sAuth.login(this.form.value).subscribe({
       next: (res) => {
         if (res.code === 1) {
@@ -85,6 +86,7 @@ export class AuthPageComponent {
         }
       },
       error: (error) => {
+        this.sNotification.showNotification('Error: Unable to log in. Please check your username and password and try again.', 'Error')
         console.error(error);
       }
     });
