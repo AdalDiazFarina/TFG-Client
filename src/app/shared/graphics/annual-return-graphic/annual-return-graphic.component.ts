@@ -33,7 +33,9 @@ export class AnnualReturnGraphicComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.createHistogram();
+    setTimeout(() => {
+      this.createHistogram();
+    }, 1000);
   }
 
   createHistogram() {

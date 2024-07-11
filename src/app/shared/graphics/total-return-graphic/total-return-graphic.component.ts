@@ -36,7 +36,9 @@ export class TotalReturnGraphicComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.createChart();
+    setTimeout(() => {
+      this.createChart();
+    }, 1000);
   }
 
   createChart(){
