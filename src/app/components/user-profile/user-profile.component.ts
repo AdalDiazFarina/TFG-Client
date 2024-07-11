@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { sAuth } from '../../services/sAuth.service';
 import { User } from '../../interfaces/iUser';
 import { sNotification } from '../../services/sNotificatoin.service';
+import { SharedService } from '../../services/sReload.service';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -39,7 +41,8 @@ export class UserProfileComponent {
     private fb: FormBuilder,
     private sAuth: sAuth,
     private dialog: MatDialog,
-    private sNotification: sNotification
+    private sNotification: sNotification,
+    private sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +53,7 @@ export class UserProfileComponent {
     this.sAuth.getUser().subscribe({
       next: (res) => {
         this.userData = res.data,
+        this.selectedImg = res.data.image
         this.form = this.buildForm();
       },
       error: (error) => console.error(error)
@@ -58,10 +62,11 @@ export class UserProfileComponent {
 
   public buildForm() {
     return this.fb.group({
-      id: ['', []],
-      name: [this.userData ? this.userData.name : '' , [Validators.required, Validators.maxLength(15)]],
-      nickname: [this.userData ? this.userData.nickname : '', [Validators.required, Validators.minLength(4)]],
-      email: [this.userData ? this.userData.email : '', [Validators.required, Validators.email]]
+      id: [this.userData ? this.userData.image : '1', []],
+      name: [this.userData ? this.userData.name : '' , ],
+      nickname: [this.userData ? this.userData.nickname : '', []],
+      email: [this.userData ? this.userData.email : '', []],
+      image: [this.userData ? this.userData.image : '', []]
     });
   }
 
@@ -71,6 +76,7 @@ export class UserProfileComponent {
       next: (res) => {
         if (res.code === 1) {
           this.getUser();
+          this.sharedService.triggerReload();
           this.sNotification.showNotification('The user profile is updated', 'Updated');
         }
       }, error: (error) => console.error(error)
@@ -99,6 +105,7 @@ export class UserProfileComponent {
       next: (img) => {
         if (!img) return
         this.selectedImg = img;
+        this.form.get('image')?.setValue(img);
       }, error: (error) => console.error(error)
     })
   }

@@ -140,7 +140,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       initial_capital: [null, []],
       duration: [null, []],
       monthly_contribution: [null, []],
-      img: ['', []]
+      image: ['', []]
     });
   }
 

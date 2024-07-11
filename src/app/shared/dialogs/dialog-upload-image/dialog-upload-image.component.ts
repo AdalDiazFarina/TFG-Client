@@ -16,6 +16,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class DialogUploadImageComponent {
   public selectedImage: string = '';
+  public default: string = '';
   public images: string[] = [
     '1', '2', '3', '4', '5', '6', '7', '8', '9'
   ]
@@ -24,7 +25,8 @@ export class DialogUploadImageComponent {
     public dialogRef: MatDialogRef<DialogUploadImageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.selectedImage = this.data.img
+    this.selectedImage = this.data.img;
+    this.default = this.data.img;
   }
 
   public onSubmit(): void {

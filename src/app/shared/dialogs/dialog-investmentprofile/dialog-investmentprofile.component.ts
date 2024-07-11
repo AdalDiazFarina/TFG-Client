@@ -51,11 +51,13 @@ export class DialogInvestmentprofileComponent {
       description: [this.data.obj === null ? '' : this.data.obj.description],
       initial_capital: [this.data.obj === null ? '' : this.data.obj.initial_capital],
       duration: [this.data.obj === null ? '' : this.data.obj.duration],
-      monthly_contribution: [this.data.obj === null ? '' : this.data.obj.monthly_contribution]
+      monthly_contribution: [this.data.obj === null ? '' : this.data.obj.monthly_contribution],
+      image: [this.data.obj === null ? '1' : this.data.obj.image]
     });
   }
 
     public submit() {
+      if (this.selectedImg === '1') this.form.get('image')?.setValue(this.selectedImg); 
       this.dialogRef.close(this.form.value)
     }
 
@@ -72,6 +74,7 @@ export class DialogInvestmentprofileComponent {
       dialogRef.afterClosed().subscribe({
         next: (img) => {
           this.selectedImg = img;
+          this.form.get('image')!.setValue(this.selectedImg);
         }, error: (error) => console.error(error)
       });
     }
